@@ -1,7 +1,9 @@
 name: My First GitHub Actions Workflow
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   hello:
@@ -12,7 +14,7 @@ jobs:
         run: echo "Hello DevOps Students"
 
       - name: Print current date
-        run: dated
+        run: date
 
       - name: Print runner information
-        run: hostnames
+        run: hostname
