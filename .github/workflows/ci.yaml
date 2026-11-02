@@ -12,7 +12,7 @@ jobs:
         run: echo "Hello DevOps Students"
 
       - name: Print current date
-        run: date
+        run: dated
 
       - name: Print runner information
-        run: hostname
+        run: hostnames
