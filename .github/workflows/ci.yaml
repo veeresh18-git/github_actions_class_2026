@@ -1,20 +1,34 @@
-name: CI Pipeline
-
+name: build cicd pipeline
 on:
   push:
     branches:
       - main
 
 jobs:
-  hello:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+       - name: checkout
+         uses: actions/checkout@v4
+         
+       - name: Login to Docker Hub
+         uses: docker/login-action@v4
+         with:
+           username: ${{ vars.username }}
+           password: ${{ secrets.password}}
 
-      - name: Check repository files
-        run: ls -la
+       - name: docker build
+         run: docker build -t app:${{ github.run_number }} .
 
-      - name: Print current branch
-        run: echo "Branch is $GITHUB_REF_NAME"
+       - name: verify image name
+         run: |
+           pwd
+           ls -ltr
+           docker images
+
+       - name: Tag Image
+         run: docker tag app:${{ github.run_number }} ${{ vars.DOCKERHUB_USERNAME }}/app:${{ github.run_number }}
+         
+       - name: docker push
+         run: docker push ${{ vars.DOCKERHUB_USERNAME }}/app:${{ github.run_number }}
+
