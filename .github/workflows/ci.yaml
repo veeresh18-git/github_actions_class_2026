@@ -1,4 +1,4 @@
-name: My First GitHub Actions Workflow
+name: CI Pipeline
 
 on:
   push:
@@ -7,14 +7,14 @@ on:
 
 jobs:
   hello:
-#    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Print welcome message
-        run: echo "Hello DevOps Students"
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Print current date
-        run: date
+      - name: Check repository files
+        run: ls -la
 
-      - name: Print runner information
-        run: hostname
+      - name: Print current branch
+        run: echo "Branch is $GITHUB_REF_NAME"
